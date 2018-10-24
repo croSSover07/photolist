@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'photo_list.dart';
+import 'data/photo_data_mock.dart';
 
 void main() => runApp(MaterialApp(
       home: Scaffold(
@@ -12,6 +14,7 @@ void main() => runApp(MaterialApp(
         ),
         body: Container(
           color: Colors.red,
+          child: new PhotoList(photos),
         ),
         drawer: Drawer(
           child: ListView(
