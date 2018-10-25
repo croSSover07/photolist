@@ -1,14 +1,4 @@
 import 'package:flutter/material.dart';
-import 'photo/photo_page_view.dart';
+import 'package:flutter_app/main/main_component.dart';
 
-void main() => runApp(MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Photos"),
-        ),
-        body: Container(
-          child: new PhotoPage(),
-        ),
-      ),
-      theme: new ThemeData.dark(),
-    ));
+void main() => runApp(new MainComponent());

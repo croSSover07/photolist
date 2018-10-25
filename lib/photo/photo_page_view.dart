@@ -7,27 +7,36 @@ import 'contract.dart';
 import 'presenter.dart';
 
 class PhotoPage extends StatelessWidget {
+
+  final String photoId;
+
+  PhotoPage(this.photoId);
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: new PhotoPageView(),
+      body: new PhotoPageView(photoId),
     );
   }
 }
 
 class PhotoPageView extends StatefulWidget {
+
+  final String photoId;
+  PhotoPageView(this.photoId);
+
   @override
-  State createState() => new PhotoPageViewState();
+  State createState() => new PhotoPageViewState(photoId);
 }
 
 class PhotoPageViewState extends State<PhotoPageView>
     implements PhotoContractView {
   bool isLoad = false;
   PhotoContractPresenter presenter;
-  String photoId = "QwhQR_kF0AQ";
+  String photoId;
   Photo photo;
 
-  PhotoPageViewState() {
+  PhotoPageViewState(this.photoId) {
     presenter = PhotoPageViewPresenter(this);
   }
 
