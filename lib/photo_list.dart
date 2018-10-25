@@ -1,24 +1,63 @@
-import 'data/photo.dart';
-import 'view_item_photo.dart';
 import 'package:flutter/material.dart';
 
-class PhotoList extends StatelessWidget {
+import 'contract.dart';
+import 'data/photo.dart';
+import 'presenter.dart';
+import 'view_item_photo.dart';
 
-  final List<Photo> photoList;
+class PhotoList extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => new PhotoListState();
+}
 
-  PhotoList(this.photoList);
+class PhotoListState extends State<PhotoList> implements PhotoListView {
+  PhotoListPresenter presenter;
+
+  List<Photo> contactList;
+
+  bool isLoading;
+
+  PhotoListState() {
+    presenter = new PhotoPresenter(this);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    isLoading = true;
+    presenter.loadPhotos();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return new ListView(
-        padding: new EdgeInsets.symmetric(vertical: 8.0),
-        children: buildPhotoList()
-    );
+    Widget widget;
+
+    if (isLoading) {
+      widget = new Center(
+          child: new Padding(
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+              child: new CircularProgressIndicator()));
+    } else {
+      widget = new ListView(
+          padding: new EdgeInsets.symmetric(vertical: 8.0),
+          children: buildPhotoList());
+    }
+    return widget;
   }
 
   List<PhotoListItem> buildPhotoList() {
-    return photoList.map((contact) => new PhotoListItem(contact))
-        .toList();
+    return contactList.map((contact) => new PhotoListItem(contact)).toList();
   }
 
+  @override
+  void onLoadComplete(List<Photo> items) {
+    setState(() {
+      contactList = items;
+      isLoading = false;
+    });
+  }
+
+  @override
+  void onLoadError() {}
 }

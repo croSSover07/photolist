@@ -3,6 +3,10 @@ class Photo {
   final String url;
 
   const Photo({this.id, this.url});
+
+  Photo.fromMap(Map<String, dynamic> map)
+      : id = map['id'],
+        url = map['urls']['full'];
 }
 
 class FetchDataException implements Exception {

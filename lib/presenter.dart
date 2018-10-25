@@ -1,5 +1,5 @@
 import 'contract.dart';
-import 'data/photo_data_mock.dart';
+import 'data/photo_data.dart';
 import 'data/photo_repository.dart';
 
 class PhotoPresenter extends PhotoListPresenter {
@@ -7,7 +7,7 @@ class PhotoPresenter extends PhotoListPresenter {
   PhotoRepository repository;
 
   PhotoPresenter(this.view) {
-    repository = new MockPhotoRepository();
+    repository = new ServerPhotoRepository();
   }
 
   @override
