@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'data/photo.dart';
+import 'package:flutter_app/data/photo.dart';
 
 class PhotoListItem extends StatelessWidget {
   final Photo photo;

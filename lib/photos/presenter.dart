@@ -1,6 +1,6 @@
-import 'contract.dart';
-import 'data/photo_data.dart';
-import 'data/photo_repository.dart';
+import 'package:flutter_app/data/photo_data.dart';
+import 'package:flutter_app/data/photo_repository.dart';
+import 'package:flutter_app/photos/contract.dart';
 
 class PhotoPresenter extends PhotoListPresenter {
   PhotoListView view;

@@ -1,4 +1,4 @@
-import 'data/photo.dart';
+import 'package:flutter_app/data/photo.dart';
 
 abstract class PhotoListView {
   void onLoadComplete(List<Photo> items);

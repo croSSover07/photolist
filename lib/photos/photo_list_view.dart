@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'contract.dart';
-import 'data/photo.dart';
-import 'presenter.dart';
-import 'view_item_photo.dart';
+import 'package:flutter_app/photos/contract.dart';
+import 'package:flutter_app/data/photo.dart';
+import 'package:flutter_app/photos/presenter.dart';
+import 'package:flutter_app/photos/view_item_photo.dart';
 
 class PhotoList extends StatefulWidget {
   @override
