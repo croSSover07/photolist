@@ -10,9 +10,8 @@ class PhotoListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new ListTile(
-      leading: new CircleAvatar(child: new Text(photo.id[0])),
       title: Container(
-        child: new Text(photo.url),
+        child: new Image.network(photo.url),
         color: Colors.black26,
       )
     );

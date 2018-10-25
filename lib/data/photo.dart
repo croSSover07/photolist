@@ -6,7 +6,7 @@ class Photo {
 
   Photo.fromMap(Map<String, dynamic> map)
       : id = map['id'],
-        url = map['urls']['full'];
+        url = map['urls']['small'];
 }
 
 class FetchDataException implements Exception {
