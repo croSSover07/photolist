@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter_app/photos/contract.dart';
 import 'package:flutter_app/data/photo.dart';
+import 'package:flutter_app/photos/contract.dart';
 import 'package:flutter_app/photos/presenter.dart';
 import 'package:flutter_app/photos/view_item_photo.dart';
 
@@ -39,9 +38,14 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
               padding: const EdgeInsets.only(left: 16.0, right: 16.0),
               child: new CircularProgressIndicator()));
     } else {
-      widget = new ListView(
-          padding: new EdgeInsets.symmetric(vertical: 8.0),
-          children: buildPhotoList());
+      widget = new Scaffold(
+        appBar: AppBar(
+          title: Text("Photos"),
+        ),
+        body: new ListView(
+            padding: new EdgeInsets.symmetric(vertical: 8.0),
+            children: buildPhotoList()),
+      );
     }
     return widget;
   }

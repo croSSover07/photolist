@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/config/application.dart';
 import 'package:flutter_app/config/routes.dart';
 
-class MainComponent extends StatefulWidget {
+class AppComponent extends StatefulWidget {
   @override
   State createState() {
-    return new MainComponentState();
+    return new AppComponentState();
   }
 }
 
-class MainComponentState extends State<MainComponent> {
-  MainComponentState() {
+class AppComponentState extends State<AppComponent> {
+  AppComponentState() {
     final router = new Router();
     Routes.configureRoutes(router);
     Application.router = router;
@@ -20,10 +20,6 @@ class MainComponentState extends State<MainComponent> {
   @override
   Widget build(BuildContext context) {
     final app = new MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(
-        title: Text("Photos"),
-      )),
       theme: new ThemeData.dark(),
       onGenerateRoute: Application.router.generator,
     );
