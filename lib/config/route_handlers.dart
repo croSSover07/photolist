@@ -1,7 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/photos/photo_list_view.dart';
-import 'package:flutter_app/photo/photo_page_view.dart';
+import 'package:flutter_app/screens/photos/photo_list_view.dart';
+import 'package:flutter_app/screens/photo/photo_page_view.dart';
 
 var rootHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {

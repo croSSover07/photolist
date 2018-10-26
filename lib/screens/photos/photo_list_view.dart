@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/photo.dart';
-import 'package:flutter_app/photos/contract.dart';
-import 'package:flutter_app/photos/presenter.dart';
-import 'package:flutter_app/photos/view_item_photo.dart';
+import 'package:flutter_app/screens/photos/contract.dart';
+import 'package:flutter_app/screens/photos/presenter.dart';
+import 'package:flutter_app/screens/photos/view_item_photo.dart';
 
 class PhotoList extends StatefulWidget {
   @override
@@ -51,7 +51,7 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
   }
 
   List<PhotoListItem> buildPhotoList() {
-    return contactList.map((contact) => new PhotoListItem(contact)).toList();
+    return contactList.map((item) => new PhotoListItem(item)).toList();
   }
 
   @override

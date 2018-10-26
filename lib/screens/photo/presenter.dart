@@ -25,7 +25,7 @@ class PhotoPageViewPresenter extends PhotoContractPresenter {
 
       if (statusCode < 200 || statusCode >= 300 || jsonBody == null) {
         throw new FetchDataException(
-            "Error while getting contacts [StatusCode:$statusCode, Error:${response}]");
+            "Error while getting photo [StatusCode:$statusCode, Error:${response}]");
       }
       final photoContainer = decoder.convert(jsonBody);
       return new Photo.fromMap(photoContainer);

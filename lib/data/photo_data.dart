@@ -19,7 +19,7 @@ class ServerPhotoRepository extends PhotoRepository {
 
       if (statusCode < 200 || statusCode >= 300 || jsonBody == null) {
         throw new FetchDataException(
-            "Error while getting contacts [StatusCode:$statusCode, Error:${response}]");
+            "Error while getting photos [StatusCode:$statusCode, Error:${response}]");
       }
       final photosContainer = decoder.convert(jsonBody) as List;
       return photosContainer.map((row) => new Photo.fromMap(row)).toList();
