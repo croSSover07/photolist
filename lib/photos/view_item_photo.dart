@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/config/routes.dart';
 import 'package:flutter_app/data/photo.dart';
 
 class PhotoListItem extends StatelessWidget {
@@ -12,7 +13,10 @@ class PhotoListItem extends StatelessWidget {
       title: Container(
         child: new Image.network(photo.url),
         color: Colors.black26,
-      )
+      ),
+      onTap: () {
+        Navigator.pushNamed(context, Routes.photo + "?photoId=${photo.id}");
+      },
     );
   }
 }
