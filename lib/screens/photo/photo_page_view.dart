@@ -86,52 +86,55 @@ class PhotoPageViewState extends State<PhotoPageView>
   }
 
   void showBottomSheet() {
+    List<Widget> list = [];
+
+    photo.instagramName != null
+        ? list.add(new ListTile(
+            leading: new Text("Instagram"),
+            title: new Text(photo.instagramName )))
+        : {};
+
+    list.add(new ListTile(
+      leading: new Text("Width"),
+      title: new Text(photo.width.toString()),
+    ));
+
+    list.add(new ListTile(
+      leading: new Text("Height"),
+      title: new Text(photo.height.toString()),
+    ));
+
+    photo.location != null
+        ? list.add(new ListTile(
+            leading: new Text("Location"),
+            title: new Text(photo.location),
+          ))
+        : {};
+
+    list.add(new ListTile(
+      leading: new Text("Downloads"),
+      title: new Text(photo.downloads.toString()),
+    ));
+
+    list.add(new Row(children: <Widget>[
+      new Expanded(
+          child: new Column(children: <Widget>[
+        new IconButton(icon: new Icon(Icons.image), onPressed: () {}),
+        new Text(
+          "Set As",
+        )
+      ])),
+      new Expanded(
+          child: new Column(children: <Widget>[
+        new IconButton(icon: new Icon(Icons.file_download), onPressed: () {}),
+        new Text("Download")
+      ])),
+    ]));
+
     showModalBottomSheet(
         context: context,
         builder: (builder) {
-          return new Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-            new ListTile(
-              leading: new Text("Instagram"),
-              title: new Text("dfadfadf"),
-            ),
-            new ListTile(
-              leading: new Text("Width"),
-              title: new Text('Music1'),
-            ),
-            new ListTile(
-              leading: new Text("Height"),
-              title: new Text('Music2'),
-            ),
-            new ListTile(
-              leading: new Text("Location"),
-              title: new Text('Music3'),
-            ),
-            new ListTile(
-              leading: new Text("Views"),
-              title: new Text('Music3'),
-            ),
-            new ListTile(
-              leading: new Text("Downloads"),
-              title: new Text('Music3'),
-            ),
-            new Row(
-              children: <Widget>[
-                new Expanded(
-                    child: new Column(children: <Widget>[
-                  new IconButton(icon: new Icon(Icons.image), onPressed: () {}),
-                  new Text(
-                    "Set As",
-                  )
-                ])),
-                new Expanded(
-                    child: new Column(children: <Widget>[
-                  new IconButton(
-                      icon: new Icon(Icons.file_download), onPressed: () {}),
-                  new Text("Download")
-                ])),
-              ],
-            )
-          ]);
+          return new Column(mainAxisSize: MainAxisSize.min, children: list);
         });
   }
 }
