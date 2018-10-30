@@ -5,6 +5,7 @@ import 'package:photo_view/photo_view.dart';
 
 import 'contract.dart';
 import 'presenter.dart';
+//import 'package:permission_handler/permission_handler.dart';
 
 class PhotoPage extends StatelessWidget {
   final String photoId;
@@ -91,7 +92,7 @@ class PhotoPageViewState extends State<PhotoPageView>
     photo.instagramName != null
         ? list.add(new ListTile(
             leading: new Text("Instagram"),
-            title: new Text(photo.instagramName )))
+            title: new Text(photo.instagramName)))
         : {};
 
     list.add(new ListTile(
@@ -118,17 +119,18 @@ class PhotoPageViewState extends State<PhotoPageView>
 
     list.add(new Row(children: <Widget>[
       new Expanded(
-          child: new Column(children: <Widget>[
-        new IconButton(icon: new Icon(Icons.image), onPressed: () {}),
-        new Text(
-          "Set As",
-        )
-      ])),
+          child: new FlatButton.icon(
+              onPressed: () {},
+              icon: new Icon(Icons.image),
+              label: new Text("Set As"))),
       new Expanded(
-          child: new Column(children: <Widget>[
-        new IconButton(icon: new Icon(Icons.file_download), onPressed: () {}),
-        new Text("Download")
-      ])),
+        child: new FlatButton.icon(
+            onPressed: () async {
+              presenter.downloadPhoto();
+            },
+            icon: new Icon(Icons.file_download),
+            label: new Text("Download")),
+      )
     ]));
 
     showModalBottomSheet(

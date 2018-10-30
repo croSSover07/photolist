@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_app/data/photo.dart';
 import 'package:flutter_app/net/http_client.dart';
+import 'package:flutter_app/utils/common.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:http/http.dart' as http;
 
 import 'contract.dart';
@@ -14,6 +16,8 @@ class PhotoPageViewPresenter extends PhotoContractPresenter {
   var httpClient = UserHttpClient(http.Client());
   var url = "https://api.unsplash.com/photos";
   final JsonDecoder decoder = new JsonDecoder();
+
+  Photo photo;
 
   @override
   void loadPhoto() {
@@ -30,7 +34,21 @@ class PhotoPageViewPresenter extends PhotoContractPresenter {
       final photoContainer = decoder.convert(jsonBody);
       return new Photo.fromMap(photoContainer);
     }).then((Photo onValue) {
-      return view.onLoadComplete(onValue);
+      photo = onValue;
+      return view.onLoadComplete(photo);
+    });
+  }
+
+  @override
+  void downloadPhoto() {
+     findLocalPath().then((onValue) {
+      var saveDir = onValue + '/Download';
+      FlutterDownloader.enqueue(
+          url: photo.downloadLink,
+          savedDir: saveDir,
+          fileName: "${photo.id}.jpg",
+          showNotification: true,
+          openFileFromNotification: false);
     });
   }
 }
