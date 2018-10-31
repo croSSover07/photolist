@@ -121,24 +121,15 @@ class PhotoPageViewState extends State<PhotoPageView>
     list.add(new Row(children: <Widget>[
       new Expanded(
           child: new FlatButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                checkPermission(presenter.setWallPaper);
+              },
               icon: new Icon(Icons.image),
               label: new Text("Set As"))),
       new Expanded(
         child: new FlatButton.icon(
             onPressed: () async {
-              SimplePermissions.checkPermission(Permission.WriteExternalStorage)
-                  .then((onValue) {
-                onValue
-                    ? presenter.downloadPhoto()
-                    : SimplePermissions.requestPermission(
-                            Permission.WriteExternalStorage)
-                        .then((permissionStatus) {
-                        permissionStatus == PermissionStatus.authorized
-                            ? presenter.downloadPhoto()
-                            : Fluttertoast.showToast(msg: "Permission denied");
-                      });
-              });
+              checkPermission(presenter.downloadPhoto);
             },
             icon: new Icon(Icons.file_download),
             label: new Text("Download")),
@@ -150,5 +141,19 @@ class PhotoPageViewState extends State<PhotoPageView>
         builder: (builder) {
           return new Column(mainAxisSize: MainAxisSize.min, children: list);
         });
+  }
+
+  void checkPermission(VoidCallback callback) {
+    SimplePermissions.checkPermission(Permission.WriteExternalStorage)
+        .then((onValue) {
+      onValue
+          ? callback()
+          : SimplePermissions.requestPermission(Permission.WriteExternalStorage)
+              .then((permissionStatus) {
+              permissionStatus == PermissionStatus.authorized
+                  ? callback()
+                  : Fluttertoast.showToast(msg: "Permission denied");
+            });
+    });
   }
 }

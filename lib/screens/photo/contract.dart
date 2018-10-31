@@ -9,4 +9,5 @@ abstract class PhotoContractView {
 abstract class PhotoContractPresenter {
   void loadPhoto();
   void downloadPhoto();
+  void setWallPaper();
 }

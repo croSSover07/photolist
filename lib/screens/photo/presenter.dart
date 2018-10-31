@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_app/data/photo.dart';
 import 'package:flutter_app/net/http_client.dart';
 import 'package:flutter_app/utils/common.dart';
@@ -9,15 +11,16 @@ import 'package:http/http.dart' as http;
 import 'contract.dart';
 
 class PhotoPageViewPresenter extends PhotoContractPresenter {
-  final PhotoContractView view;
-
-  PhotoPageViewPresenter(this.view);
+  static const platform = const MethodChannel('flutter/setwallpaper');
 
   var httpClient = UserHttpClient(http.Client());
   var url = "https://api.unsplash.com/photos";
   final JsonDecoder decoder = new JsonDecoder();
 
   Photo photo;
+  final PhotoContractView view;
+
+  PhotoPageViewPresenter(this.view);
 
   @override
   void loadPhoto() {
@@ -41,7 +44,7 @@ class PhotoPageViewPresenter extends PhotoContractPresenter {
 
   @override
   void downloadPhoto() {
-     findLocalPath().then((onValue) {
+    findLocalPath().then((onValue) {
       var saveDir = onValue + '/Download';
       FlutterDownloader.enqueue(
           url: photo.downloadLink,
@@ -50,5 +53,10 @@ class PhotoPageViewPresenter extends PhotoContractPresenter {
           showNotification: true,
           openFileFromNotification: false);
     });
+  }
+
+  @override
+  void setWallPaper() async {
+    platform.invokeMethod('setWallByUrl', photo.downloadLink);
   }
 }
