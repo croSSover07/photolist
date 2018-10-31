@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/photo.dart';
 import 'package:flutter_app/net/http_client.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:simple_permissions/simple_permissions.dart';
 
 import 'contract.dart';
 import 'presenter.dart';
-//import 'package:permission_handler/permission_handler.dart';
 
 class PhotoPage extends StatelessWidget {
   final String photoId;
@@ -126,7 +127,18 @@ class PhotoPageViewState extends State<PhotoPageView>
       new Expanded(
         child: new FlatButton.icon(
             onPressed: () async {
-              presenter.downloadPhoto();
+              SimplePermissions.checkPermission(Permission.WriteExternalStorage)
+                  .then((onValue) {
+                onValue
+                    ? presenter.downloadPhoto()
+                    : SimplePermissions.requestPermission(
+                            Permission.WriteExternalStorage)
+                        .then((permissionStatus) {
+                        permissionStatus == PermissionStatus.authorized
+                            ? presenter.downloadPhoto()
+                            : Fluttertoast.showToast(msg: "Permission denied");
+                      });
+              });
             },
             icon: new Icon(Icons.file_download),
             label: new Text("Download")),
