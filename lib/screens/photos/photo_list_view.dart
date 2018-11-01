@@ -74,6 +74,17 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
   @override
   void onLoadComplete(List<Photo> items) {
     setState(() {
+      if (items.isEmpty) {
+        double edge = 56.0;
+        double offsetBottom = scrollController.position.maxScrollExtent -
+            scrollController.position.pixels;
+        if (offsetBottom < edge) {
+          scrollController.animateTo(
+              scrollController.offset - (edge - offsetBottom),
+              duration: Duration(milliseconds: 500),
+              curve: Curves.easeOut);
+        }
+      }
       isInit ? contactList = items : contactList.addAll(items);
       isLoading = false;
       isInit = false;
@@ -88,7 +99,7 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
       padding: const EdgeInsets.all(8.0),
       child: new Center(
         child: new Opacity(
-          opacity: 1.0,
+          opacity: !isLoading ? 1.0 : 0.0,
           child: new CircularProgressIndicator(),
         ),
       ),
