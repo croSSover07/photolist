@@ -11,10 +11,9 @@ class PhotoPresenter extends PhotoListPresenter {
   }
 
   @override
-  void loadPhotos() {
+  void loadPhotos(bool isRefresh) {
     assert(view != null);
-    repository
-        .fetch()
+    (isRefresh ? repository.init() : repository.loadMore())
         .then((photos) => view.onLoadComplete(photos))
         .catchError((onError) {
       print(onError);

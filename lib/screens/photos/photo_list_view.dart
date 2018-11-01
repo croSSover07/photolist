@@ -13,8 +13,10 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
   PhotoListPresenter presenter;
 
   List<Photo> contactList;
+  ScrollController scrollController = new ScrollController();
 
   bool isLoading;
+  bool isInit;
 
   PhotoListState() {
     presenter = new PhotoPresenter(this);
@@ -25,43 +27,71 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
     super.initState();
 
     isLoading = true;
-    presenter.loadPhotos();
+    isInit = true;
+
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        isLoading = true;
+        presenter.loadPhotos(false);
+      }
+    });
+    presenter.loadPhotos(isInit);
   }
 
   @override
   Widget build(BuildContext context) {
     Widget widget;
 
-    if (isLoading) {
+    if (isInit) {
       widget = new Center(
           child: new Padding(
               padding: const EdgeInsets.only(left: 16.0, right: 16.0),
               child: new CircularProgressIndicator()));
     } else {
       widget = new Scaffold(
-        appBar: AppBar(
-          title: Text("Photos"),
-        ),
-        body: new ListView(
+          appBar: AppBar(
+            title: Text("Photos"),
+          ),
+          body: ListView.builder(
             padding: new EdgeInsets.symmetric(vertical: 8.0),
-            children: buildPhotoList()),
-      );
+            controller: scrollController,
+            itemCount: contactList.length + 1,
+            itemBuilder: (context, index) {
+              return index == contactList.length
+                  ? buildProgressIndicator()
+                  : buildItem(index);
+            },
+          ));
     }
     return widget;
   }
 
-  List<PhotoListItem> buildPhotoList() {
-    return contactList.map((item) => new PhotoListItem(item)).toList();
+  PhotoListItem buildItem(int index) {
+    return PhotoListItem(contactList[index]);
   }
 
   @override
   void onLoadComplete(List<Photo> items) {
     setState(() {
-      contactList = items;
+      isInit ? contactList = items : contactList.addAll(items);
       isLoading = false;
+      isInit = false;
     });
   }
 
   @override
   void onLoadError() {}
+
+  Widget buildProgressIndicator() {
+    return new Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: new Center(
+        child: new Opacity(
+          opacity: 1.0,
+          child: new CircularProgressIndicator(),
+        ),
+      ),
+    );
+  }
 }

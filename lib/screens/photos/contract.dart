@@ -7,5 +7,5 @@ abstract class PhotoListView {
 }
 
 abstract class PhotoListPresenter {
-  void loadPhotos();
+  void loadPhotos(bool isRefresh);
 }

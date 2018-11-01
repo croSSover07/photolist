@@ -2,5 +2,6 @@ import 'dart:async';
 import 'photo.dart';
 
 abstract class PhotoRepository {
-  Future<List<Photo>> fetch();
+  Future<List<Photo>> init();
+  Future<List<Photo>> loadMore();
 }
