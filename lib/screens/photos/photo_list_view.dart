@@ -53,16 +53,18 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
           appBar: AppBar(
             title: Text("Photos"),
           ),
-          body: ListView.builder(
-            padding: new EdgeInsets.symmetric(vertical: 8.0),
-            controller: scrollController,
-            itemCount: contactList.length + 1,
-            itemBuilder: (context, index) {
-              return index == contactList.length
-                  ? buildProgressIndicator()
-                  : buildItem(index);
-            },
-          ));
+          body: RefreshIndicator(
+              child: ListView.builder(
+                padding: new EdgeInsets.symmetric(vertical: 8.0),
+                controller: scrollController,
+                itemCount: contactList.length + 1,
+                itemBuilder: (context, index) {
+                  return index == contactList.length
+                      ? buildProgressIndicator()
+                      : buildItem(index);
+                },
+              ),
+              onRefresh: refresh));
     }
     return widget;
   }
@@ -75,6 +77,8 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
   void onLoadComplete(List<Photo> items) {
     setState(() {
       if (items.isEmpty) {
+        /** TODO: get default height
+         *  'ProgressIndicator()'*/
         double edge = 56.0;
         double offsetBottom = scrollController.position.maxScrollExtent -
             scrollController.position.pixels;
@@ -104,5 +108,12 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
         ),
       ),
     );
+  }
+
+  Future<Null> refresh() async {
+    isLoading = true;
+    isInit = true;
+    presenter.loadPhotos(isInit);
+    return null;
   }
 }
