@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 import 'contract.dart';
 
 class PhotoPageViewPresenter extends PhotoContractPresenter {
-  static const platform = const MethodChannel('flutter/setwallpaper');
+  static const platform = const MethodChannel('flutter/app');
 
   var httpClient = UserHttpClient(http.Client());
   var url = "https://api.unsplash.com/photos";
@@ -58,5 +58,10 @@ class PhotoPageViewPresenter extends PhotoContractPresenter {
   @override
   void setWallPaper() async {
     platform.invokeMethod('setWallByUrl', photo.downloadLink);
+  }
+
+  @override
+  void openInstaProfile(){
+    platform.invokeMethod('showInstaProfile', photo.instagramName);
   }
 }

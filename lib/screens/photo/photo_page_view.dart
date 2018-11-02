@@ -93,7 +93,10 @@ class PhotoPageViewState extends State<PhotoPageView>
     photo.instagramName != null
         ? list.add(new ListTile(
             leading: new Text("Instagram"),
-            title: new Text(photo.instagramName)))
+            title: new Text(photo.instagramName,
+                style: TextStyle(decoration: TextDecoration.underline)),
+            onTap: presenter.openInstaProfile,
+          ))
         : {};
 
     list.add(new ListTile(

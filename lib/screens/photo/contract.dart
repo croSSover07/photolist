@@ -10,4 +10,5 @@ abstract class PhotoContractPresenter {
   void loadPhoto();
   void downloadPhoto();
   void setWallPaper();
+  void openInstaProfile();
 }
