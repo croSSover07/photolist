@@ -20,4 +20,10 @@ class PhotoPresenter extends PhotoListPresenter {
       view.onLoadError();
     });
   }
+
+  @override
+  void setQuery(String query) {
+    repository.query = query;
+    loadPhotos(true);
+  }
 }

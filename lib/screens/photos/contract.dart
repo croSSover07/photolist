@@ -8,4 +8,5 @@ abstract class PhotoListView {
 
 abstract class PhotoListPresenter {
   void loadPhotos(bool isRefresh);
+  void setQuery(String query);
 }

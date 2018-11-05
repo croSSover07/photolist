@@ -9,12 +9,16 @@ import 'photo_repository.dart';
 
 class ServerPhotoRepository extends PhotoRepository {
   var url = "https://api.unsplash.com/photos";
+  var searchUrl = "https://api.unsplash.com/search/photos";
   final JsonDecoder decoder = new JsonDecoder();
 
   var httpClient = UserHttpClient(http.Client());
 
   static const int PER_PAGE = 10;
   int page = 1;
+
+  @override
+  String query;
 
   Future<List<Photo>> fetch() {
     return httpClient.get(request()).then((http.Response response) {
@@ -25,7 +29,12 @@ class ServerPhotoRepository extends PhotoRepository {
         throw new FetchDataException(
             "Error while getting photos [StatusCode:$statusCode, Error:${response}]");
       }
-      final photosContainer = decoder.convert(jsonBody) as List;
+
+      final photosContainer = query == null
+          ? decoder.convert(jsonBody) as List
+          : (decoder.convert(jsonBody) as Map<String, dynamic>)["results"]
+              as List;
+
       return photosContainer.map((row) => new Photo.fromMap(row)).toList();
     });
   }
@@ -43,6 +52,7 @@ class ServerPhotoRepository extends PhotoRepository {
   }
 
   String request() {
-    return "$url?page=$page&&per_page=$PER_PAGE";
+    return (query != null ? "$searchUrl?query=$query&&" : "$url?") +
+        "page=$page&&per_page=$PER_PAGE";
   }
 }

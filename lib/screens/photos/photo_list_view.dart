@@ -14,9 +14,12 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
 
   List<Photo> contactList;
   ScrollController scrollController = new ScrollController();
+  TextEditingController searchQuery;
 
   bool isLoading;
   bool isInit;
+  bool isSearchingMode;
+  bool isRefresh;
 
   PhotoListState() {
     presenter = new PhotoPresenter(this);
@@ -25,9 +28,12 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
   @override
   void initState() {
     super.initState();
+    searchQuery = new TextEditingController();
 
-    isLoading = true;
     isInit = true;
+    isLoading = true;
+    isSearchingMode = false;
+    isRefresh = true;
 
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
@@ -51,7 +57,8 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
     } else {
       widget = new Scaffold(
           appBar: AppBar(
-            title: Text("Photos"),
+            title: isSearchingMode ? buildSearchField() : Text("Photos"),
+            actions: buildActions(),
           ),
           body: RefreshIndicator(
               child: ListView.builder(
@@ -67,6 +74,51 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
               onRefresh: refresh));
     }
     return widget;
+  }
+
+  Widget buildSearchField() {
+    return TextField(
+      controller: searchQuery,
+      autofocus: true,
+      decoration: const InputDecoration(
+        hintText: 'Search...',
+        border: InputBorder.none,
+        hintStyle: const TextStyle(color: Colors.white30),
+      ),
+      style: const TextStyle(color: Colors.white, fontSize: 16.0),
+      onSubmitted: (query) {
+        isSearchingMode = true;
+        isRefresh = true;
+        presenter.setQuery(query);
+      },
+    );
+  }
+
+  List<Widget> buildActions() {
+    if (isSearchingMode) {
+      return <Widget>[
+        new IconButton(
+            icon: const Icon(Icons.clear),
+            onPressed: () {
+              setState(() {
+                searchQuery.clear();
+                isSearchingMode = false;
+                isRefresh = true;
+                presenter.setQuery(null);
+              });
+            })
+      ];
+    } else {
+      return <Widget>[
+        new IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              setState(() {
+                isSearchingMode = true;
+              });
+            })
+      ];
+    }
   }
 
   PhotoListItem buildItem(int index) {
@@ -89,14 +141,17 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
               curve: Curves.easeOut);
         }
       }
-      isInit ? contactList = items : contactList.addAll(items);
+      isRefresh ? contactList = items : contactList.addAll(items);
       isLoading = false;
       isInit = false;
+      isRefresh = false;
     });
   }
 
   @override
-  void onLoadError() {}
+  void onLoadError() {
+    print("ERROR");
+  }
 
   Widget buildProgressIndicator() {
     return new Padding(
@@ -113,6 +168,7 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
   Future<Null> refresh() async {
     isLoading = true;
     isInit = true;
+    isRefresh = true;
     presenter.loadPhotos(isInit);
     return null;
   }
