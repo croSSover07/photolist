@@ -61,15 +61,14 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
             actions: buildActions(),
           ),
           body: RefreshIndicator(
-              child: ListView.builder(
-                padding: new EdgeInsets.symmetric(vertical: 8.0),
+              child: GridView.count(
+                crossAxisCount: 2,
                 controller: scrollController,
-                itemCount: contactList.length + 1,
-                itemBuilder: (context, index) {
+                children: List.generate(contactList.length + 1, (index) {
                   return index == contactList.length
                       ? buildProgressIndicator()
                       : buildItem(index);
-                },
+                }),
               ),
               onRefresh: refresh));
     }
