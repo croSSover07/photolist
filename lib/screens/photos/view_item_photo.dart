@@ -9,14 +9,32 @@ class PhotoListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new ListTile(
-      title: Container(
-        child: new Image.network(photo.url),
-        color: Colors.black26,
+    return new AspectRatio(
+      aspectRatio: photo.width / photo.height,
+      child: new Stack(
+        children: <Widget>[
+          new Positioned.fill(
+            child: Container(
+              padding: new EdgeInsets.all(8.0),
+              child: new Image.network(
+                photo.url,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          new Positioned.fill(
+              child: Material(
+            color: Colors.transparent,
+            child: new InkWell(
+              splashColor: Color(photo.color).withOpacity(0.5),
+              onTap: () {
+                Navigator.pushNamed(
+                    context, Routes.photo + "?photoId=${photo.id}");
+              },
+            ),
+          ))
+        ],
       ),
-      onTap: () {
-        Navigator.pushNamed(context, Routes.photo + "?photoId=${photo.id}");
-      },
     );
   }
 }

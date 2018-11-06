@@ -1,3 +1,5 @@
+import 'package:flutter_app/ext/common.dart';
+
 class Photo {
   final String id;
   final String url;
@@ -12,6 +14,7 @@ class Photo {
   final int downloads;
   final String instagramName;
   final String location;
+  final int color;
 
   const Photo({
     this.id,
@@ -27,6 +30,7 @@ class Photo {
     this.downloads,
     this.instagramName,
     this.location,
+    this.color
   });
 
   Photo.fromMap(Map<String, dynamic> map)
@@ -42,7 +46,8 @@ class Photo {
         views = map['views'],
         downloads = map['downloads'],
         instagramName = map['user']['instagram_username'],
-        location = map.containsKey('location') ? map['location']['title'] : null;
+        location = map.containsKey('location') ? map['location']['title'] : null,
+        color = hexToIntColor(map['color']);
 }
 
 class FetchDataException implements Exception {
