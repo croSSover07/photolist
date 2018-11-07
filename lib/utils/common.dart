@@ -9,25 +9,3 @@ Future<String> findLocalPath() async {
       : await getApplicationDocumentsDirectory();
   return directory.path;
 }
-
-Future<bool> checkPermission() async {
-//  if (Platform.isAndroid) {
-//    PermissionHandler()
-//        .checkPermissionStatus(PermissionGroup.storage)
-//        .then((onValue) {
-//      if (onValue != PermissionStatus.granted) {
-//        PermissionHandler()
-//            .requestPermissions([PermissionGroup.storage]).then((onValue) {
-//          if (onValue[PermissionGroup.storage] == PermissionStatus.granted) {
-//            return true;
-//          }
-//        });
-//      } else {
-//        return true;
-//      }
-//    });
-//  } else {
-//    return true;
-//  }
-  return false;
-}

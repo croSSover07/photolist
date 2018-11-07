@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/photo.dart';
+import 'package:flutter_app/localizations.dart';
 import 'package:flutter_app/net/http_client.dart' as http;
+import 'package:flutter_app/utils/constants.dart' as Constants;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:simple_permissions/simple_permissions.dart';
@@ -92,7 +94,8 @@ class PhotoPageViewState extends State<PhotoPageView>
 
     photo.instagramName != null
         ? list.add(new ListTile(
-            leading: new Text("Instagram"),
+            leading: new Text(AppLocalizations.of(context)
+                .trans(Constants.Localization.INSTAGRAM)),
             title: new Text(photo.instagramName,
                 style: TextStyle(decoration: TextDecoration.underline)),
             onTap: presenter.openInstaProfile,
@@ -100,24 +103,28 @@ class PhotoPageViewState extends State<PhotoPageView>
         : {};
 
     list.add(new ListTile(
-      leading: new Text("Width"),
+      leading: new Text(
+          AppLocalizations.of(context).trans(Constants.Localization.WIDTH)),
       title: new Text(photo.width.toString()),
     ));
 
     list.add(new ListTile(
-      leading: new Text("Height"),
+      leading: new Text(
+          AppLocalizations.of(context).trans(Constants.Localization.HEIGHT)),
       title: new Text(photo.height.toString()),
     ));
 
     photo.location != null
         ? list.add(new ListTile(
-            leading: new Text("Location"),
+            leading: new Text(AppLocalizations.of(context)
+                .trans(Constants.Localization.LOCATION)),
             title: new Text(photo.location),
           ))
         : {};
 
     list.add(new ListTile(
-      leading: new Text("Downloads"),
+      leading: new Text(
+          AppLocalizations.of(context).trans(Constants.Localization.DOWNLOADS)),
       title: new Text(photo.downloads.toString()),
     ));
 
@@ -128,14 +135,16 @@ class PhotoPageViewState extends State<PhotoPageView>
                 checkPermission(presenter.setWallPaper);
               },
               icon: new Icon(Icons.image),
-              label: new Text("Set As"))),
+              label: new Text(AppLocalizations.of(context)
+                  .trans(Constants.Localization.SET_AS)))),
       new Expanded(
         child: new FlatButton.icon(
             onPressed: () async {
               checkPermission(presenter.downloadPhoto);
             },
             icon: new Icon(Icons.file_download),
-            label: new Text("Download")),
+            label: new Text(AppLocalizations.of(context)
+                .trans(Constants.Localization.DOWNLOAD))),
       )
     ]));
 
@@ -155,7 +164,9 @@ class PhotoPageViewState extends State<PhotoPageView>
               .then((permissionStatus) {
               permissionStatus == PermissionStatus.authorized
                   ? callback()
-                  : Fluttertoast.showToast(msg: "Permission denied");
+                  : Fluttertoast.showToast(
+                      msg: AppLocalizations.of(context)
+                          .trans(Constants.Localization.PERMISSION_DENIED));
             });
     });
   }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/photo.dart';
+import 'package:flutter_app/localizations.dart';
 import 'package:flutter_app/screens/photos/contract.dart';
 import 'package:flutter_app/screens/photos/presenter.dart';
 import 'package:flutter_app/screens/photos/view_item_photo.dart';
+import 'package:flutter_app/utils/constants.dart' as Constants;
 
 class PhotoList extends StatefulWidget {
   @override
@@ -57,7 +59,10 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
     } else {
       widget = new Scaffold(
           appBar: AppBar(
-            title: isSearchingMode ? buildSearchField() : Text("Photos"),
+            title: isSearchingMode
+                ? buildSearchField()
+                : Text(AppLocalizations.of(context)
+                    .trans(Constants.Localization.PHOTOS)),
             actions: buildActions(),
           ),
           body: RefreshIndicator(
@@ -79,8 +84,9 @@ class PhotoListState extends State<PhotoList> implements PhotoListView {
     return TextField(
       controller: searchQuery,
       autofocus: true,
-      decoration: const InputDecoration(
-        hintText: 'Search...',
+      decoration: new InputDecoration(
+        hintText:
+            AppLocalizations.of(context).trans(Constants.Localization.SEARCH),
         border: InputBorder.none,
         hintStyle: const TextStyle(color: Colors.white30),
       ),

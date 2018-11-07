@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_app/net/http_client.dart';
+import 'package:flutter_app/utils/constants.dart' as Constants;
 import 'package:http/http.dart' as http;
 
 import 'photo.dart';
@@ -32,8 +33,8 @@ class ServerPhotoRepository extends PhotoRepository {
 
       final photosContainer = query == null
           ? decoder.convert(jsonBody) as List
-          : (decoder.convert(jsonBody) as Map<String, dynamic>)["results"]
-              as List;
+          : (decoder.convert(jsonBody)
+              as Map<String, dynamic>)[Constants.API.RESULTS] as List;
 
       return photosContainer.map((row) => new Photo.fromMap(row)).toList();
     });
@@ -52,7 +53,9 @@ class ServerPhotoRepository extends PhotoRepository {
   }
 
   String request() {
-    return (query != null ? "$searchUrl?query=$query&&" : "$url?") +
-        "page=$page&&per_page=$PER_PAGE";
+    return (query != null
+            ? "$searchUrl?${Constants.API.QUERY}=$query&&"
+            : "$url?") +
+        "${Constants.API.PAGE}=$page&&${Constants.API.PER_PAGE}=$PER_PAGE";
   }
 }

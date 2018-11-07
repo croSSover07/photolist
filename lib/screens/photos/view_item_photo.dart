@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/config/routes.dart';
 import 'package:flutter_app/data/photo.dart';
+import 'package:flutter_app/utils/constants.dart' as Constant;
 
 class PhotoListItem extends StatelessWidget {
   final Photo photo;
@@ -28,8 +29,8 @@ class PhotoListItem extends StatelessWidget {
             child: new InkWell(
               splashColor: Color(photo.color).withOpacity(0.5),
               onTap: () {
-                Navigator.pushNamed(
-                    context, Routes.photo + "?photoId=${photo.id}");
+                Navigator.pushNamed(context,
+                    Routes.photo + "?${Constant.Router.photoId}=${photo.id}");
               },
             ),
           ))
